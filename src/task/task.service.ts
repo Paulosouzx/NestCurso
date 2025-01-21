@@ -5,15 +5,17 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { FindAllParameters, TaskDto } from './task.dto';
+import { FindAllParameters, TaskDto, TaskStatusEnum } from './task.dto';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class TaskService {
   private tasks: TaskDto[] = [];
 
   create(task: TaskDto) {
+    task.id = uuid();
+    task.status = TaskStatusEnum.TO_DO;
     this.tasks.push(task);
-    console.log(this.tasks);
   }
 
   findById(id: string): TaskDto {
@@ -33,7 +35,8 @@ export class TaskService {
       let match = true;
 
       //vai verificar se o title esta incluso nos parametros passados, caso seja diferente ele nao vai trazer e o mesmo para status
-      if (params.title != undefined && !t.title.includes(params.title)) match = false;
+      if (params.title != undefined && !t.title.includes(params.title))
+        match = false;
 
       if (params.status != undefined && !t.status.includes(params.status))
         match = false;

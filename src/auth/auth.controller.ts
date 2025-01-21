@@ -4,14 +4,13 @@ import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly authService: AuthService) {}
 
-    constructor(private readonly authService: AuthService) { }
-
-    @Post('login')
-    singIn(
-        @Body('username') username: string,
-        @Body('password') password: string
-    ): AuthResponseDto{
-        return this.authService.signIn(username, password)
-    }
+  @Post('login')
+  signIn(
+    @Body('username') username: string,
+    @Body('password') password: string,
+  ): AuthResponseDto {
+    return this.authService.signIn(username, password);
+  }
 }
